@@ -1,0 +1,212 @@
+.ice-calendar-parent {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  z-index: 9999;
+}
+
+.ice-calendar-main {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 9999;
+  *display: inline;
+  *zoom: 1;
+}
+
+.ice-calendar {
+  display: inline-block;
+  font: 13px 'microsoft yahei', 'Arial', 'Simsum', 'Monaco';
+  color: #666 !important;
+  margin-right: 6px;
+  *display: inline;
+  *zoom: 1;
+}
+
+.ice-calendar .clear {
+  height: 1px;
+  clear: both;
+}
+
+.ice-calendar .sec {
+  position: relative;
+  float: left;
+  width: 260px;
+  margin: 0 6px;
+}
+
+.ice-calendar .sec-head {
+  height: 22px;
+  line-height: 22px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.ice-calendar .sec-head div {
+  float: left;
+  height: 30px;
+  text-align: center;
+}
+
+.ice-calendar .sec-head .btn {
+  width: 30px;
+}
+
+.ice-calendar .sec-head .time {
+  width: 200px;
+}
+
+.ice-calendar .bg {
+  width: 23px;
+  height: 23px;
+  display: inline-block;
+  background-image: url('imgs/bg.png');
+  background-repeat: no-repeat;
+  text-decoration: none;
+  *display: inline;
+  *zoom: 1;
+}
+
+.ice-calendar .bg-pre:hover {
+  background-position: -46px 0;
+}
+
+.ice-calendar .bg-next {
+  background-position: -23px 0;
+}
+
+.ice-calendar .bg-next:hover {
+  background-position: -69px 0;
+}
+
+
+/* 按钮 */
+
+.ice-calendar-btn {
+  border-top: 1px solid #ccc;
+  margin-bottom: 1px;
+  background-color: #fafafa;
+  text-align: right;
+  padding-right: 20px;
+  margin-top: 10px;
+  *margin-top: 20px;
+}
+
+.ice-calendar-btn span {
+  display: inline-block;
+  padding: 0 16px;
+  margin: 8px 0;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 2px;
+  background-color: #eee;
+  color: #333;
+  font-size: 12px;
+  border: 1px solid #cacaca;
+  cursor: pointer;
+  *display: inline;
+  *zoom: 1;
+}
+
+.ice-calendar-btn span.no:hover {
+  background-color: #f3f3f3;
+}
+
+.ice-calendar-btn span.yes {
+  background-color: #b4d66f;
+  border-color: #88ab4a;
+  color: #56740f;
+}
+
+.ice-calendar-btn span.yes:hover {
+  background-color: #446af6;
+  color: #fff;
+  border-color: #2905dd;
+}
+
+/* 月历 */
+.ice-calendar .sec-month {}
+
+.ice-calendar .sec-month label {
+  display: block;
+  float: left;
+  width: 25%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  height: 26px;
+  line-height: 26px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.ice-calendar .sec-month span {
+  display: inline-block;
+  width: 80%;
+  height: 100%;
+  border: 1px solid #fff;
+  *display: inline;
+  *zoom: 1;
+}
+
+.ice-calendar .sec-months span.disabeld {
+  color: #ccc;
+}
+
+.ice-calendar .sec-month span.choose {
+  background-color: #bbb;
+  color: #fff;
+  border-color: #eee;
+}
+
+/* 日历 */
+
+.ice-calendar .sec-day {}
+
+.ice-calendar .sec-date {
+  margin: 0 auto;
+  margin-top: 4px;
+  width: 96%;
+  height: 30px;
+  line-height: 30px;
+  background-color: #fcfcfc;
+  border: 1px solid #ddd;
+}
+
+.ice-calendar .sec-date span {
+  display: block;
+  float: left;
+  width: 14.2%;
+  text-align: center;
+  *width: 14%;
+}
+
+.ice-calendar .sec-days {
+  margin: 0 auto;
+  margin-top: 12px;
+  width: 96%;
+  color: #444;
+}
+
+.ice-calendar .sec-days span {
+  display: block;
+  float: left;
+  width: 14.2%;
+  margin-bottom: 5px;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  text-align: center;
+  *width: 14%;
+}
+
+.ice-calendar .sec-days span.disabeld {
+  color: #ccc;
+}
+
+.ice-calendar .sec-days span.choose {
+  background-image: url('imgs/bg.png');
+  background-repeat: no-repeat;
+  background-position: -92px 0;
+  color: #fff;
+}

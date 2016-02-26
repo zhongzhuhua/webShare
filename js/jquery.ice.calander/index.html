@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>日历控件</title>
+  <link rel="stylesheet" href="css/calendar.css" />
+</head>
+
+<body>
+  <style>
+  .calendar {
+    float: right;
+  }
+  </style>
+  <div class="calendar">
+    <span class="j-show">打开日历</span>
+  </div>
+</body>
+<script src="/js/jquery.js"></script>
+<script src="js/main.min.js"></script>
+<script>
+IceCalendar($, {
+  times: 1,
+  positionRight: '10px',
+  positionTop: '30px',
+  minDate: '20140601',
+  type: 'day',
+  closeMonth: [1],
+  closeDay: [3, 4],
+  ok: function(data) {
+    console.log(data);
+  },
+  cancel: function(data) {
+    console.log(data);
+  }
+});
+</script>
+
+</html>

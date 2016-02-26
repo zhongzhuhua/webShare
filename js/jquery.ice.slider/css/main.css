@@ -1,0 +1,65 @@
+.ice-slider {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ice-slider img {
+  border: 0;
+}
+
+.ice-slider .j-main {
+  position: relative;
+  width: 100%;
+}
+
+.ice-slider .j-content {
+  position: absolute;
+  display: block;
+  left: -100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.ice-slider .j-img {
+  width: 100%;
+  height: 100%;
+}
+
+.ice-slider .j-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2em;
+  width: 100%;
+  text-align: right;
+  background-color: #000;
+  z-index: 1;
+}
+
+.ice-slider .j-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+  z-index: 2;
+}
+
+.ice-slider .j-footer span {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: 1.4em;
+  margin-top: .3em;
+  margin-bottom: .3em;
+  border: 1px solid #6171ed;
+  background-color: #fff;
+  border-radius: 50%;
+  font-size: 8px;
+}
+
+.ice-slider .j-footer span.j-choose {
+  background-color: #0094ff;
+}
