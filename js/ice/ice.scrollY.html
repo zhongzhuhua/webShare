@@ -1,0 +1,87 @@
+<div class="ice">
+  <div class="ice-nav">
+    首页
+  </div>
+  <div class="ice-bar">
+    底部
+  </div>
+  <div class="ice-main">
+    <div class="i-hide"></div>
+    <a id="submit" href="javascript:;">提交</a>
+  </div>
+</div>
+<style>
+.ice {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ice div {
+  z-index: 1;
+}
+
+.ice-nav {
+  position: relative;
+  width: 100%;
+  height: 3rem;
+  line-height: 3rem;
+  background-color: #f3f3f3;
+  z-index: 2 !important;
+}
+
+.ice-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  line-height: 3rem;
+  background-color: #f3f3f3;
+  z-index: 2 !important;
+}
+
+.ice-bar ~ .ice-main {
+  bottom: 3rem !important;
+}
+
+.ice-main {
+  position: absolute;
+  width: 100%;
+  top: -3rem;
+  bottom: 0rem;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.ice-main .i-hide {
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+}
+
+.ice-main .i-hide:after {
+  content: '↓'
+}
+
+.ice-nav ~ .ice-main {
+  top: 0;
+}
+
+.ice-mess {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  font-size: .8rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, .4);
+  color: #fff;
+  overflow: hidden;
+}
+</style>
