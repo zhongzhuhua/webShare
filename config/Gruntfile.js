@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       },
       // 合并插件 js
       libJs: {
-        src: ['assets/lib/require.js', 'assets/lib/require.config.js', 'assets/lib/ice.js'],
+        src: ['assets/lib/require.js', 'assets/lib/require.config.js', 'assets/lib/ice.js', 'assets/lib/ice.scrollY.js'],
         dest: 'dist/assets/js/common.js'
       }
     },
@@ -116,6 +116,30 @@ module.exports = function(grunt) {
           dest: 'dist/assets/images'
         }]
       }
+    },
+
+    // ============== 监控 =================
+    watch: {
+      options: {
+        // 1s 执行，默认 500ms
+        debounceDelay: 1000
+      },
+      lib: {
+        files: 'assets/lib/**/*',
+        tasks: ['lib']
+      },
+      scripts: {
+        files: 'assets/js/**/*',
+        tasks: ['jsmin']
+      },
+      css: {
+        files: 'assets/css/*.css',
+        tasks: ['cssmini']
+      },
+      html: {
+        files: ['html/**/*', 'module/*'],
+        tasks: ['html']
+      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -125,6 +149,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-include-replace');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
 
   grunt.registerTask('img', '图片压缩', function() {
@@ -135,7 +160,7 @@ module.exports = function(grunt) {
     grunt.task.run(['copy']);
   });
 
-  grunt.registerTask('cssmin', '合并压缩样式', function() {
+  grunt.registerTask('cssmini', '合并压缩样式', function() {
     grunt.task.run(['concat', 'cssmin']);
   });
 
@@ -149,6 +174,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('html', '压缩页面', function() {
     grunt.task.run(['include', 'htmlmin']);
+  });
+
+  grunt.registerTask('pack', '监控打包', function() {
+    grunt.task.run(['watch']);
   });
 
   grunt.registerTask('default', '默认任务', function() {
