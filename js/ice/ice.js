@@ -268,16 +268,16 @@
           if (myhttp.status == 200) {
             finish = true;
           }
-        }
 
-        if (finish) {
-          var result = myhttp.responseText;
-          if (options.dateType == 'json') {
-            result = ice.parseJson(result);
+          if (finish) {
+            var result = myhttp.responseText;
+            if (options.dateType == 'json') {
+              result = ice.parseJson(result);
+            }
+            options.success(result);
+          } else {
+            options.error('request error');
           }
-          options.success(result);
-        } else {
-          options.error('request error');
         }
       };
     }
