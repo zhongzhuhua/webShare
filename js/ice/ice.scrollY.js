@@ -10,10 +10,14 @@
       var g = {
         // 顶部 dom 元素
         arrow: options ? options.arrow : null,
+        // 刷新块
+        refresh: options ? options.refresh : null,
         // 刷新函数
         refreshFun: options ? options.refreshFun : null,
         // 加载函数
         loadFun: options ? options.loadFun : null,
+        // 什么样式不执行事件
+        noClass: 'option',
 
         // 是否可以执行刷新
         isRefresh: false,
@@ -31,6 +35,8 @@
         moveHeight: dom.clientHeight / 2,
         start: 0,
         end: 0,
+        // 是否上拉超过一秒
+        isLoadTimer: null,
         // 当前滚动条高度
         st: 0
       };
@@ -42,10 +48,20 @@
         });
       };
 
+      // 绑定事件
       dom.addEventListener(ice.tapStart, function(e) {
+        e = e || window.event;
         g.st = dom.scrollTop;
         var myEvent = e.touches ? e.touches[0] : (e || window.event);
         g.start = myEvent.pageY;
+
+        // 如果点击的是 input select 或者 class 有 noClass 的，就 false
+        var node = e.srcElement;
+        var nodeName = node.nodeName.toLowerCase();
+        var clazz = node.className;
+        if(nodeName == 'input' || nodeName == 'select' || (clazz && clazz.indexOf(g.noClass) > -1)) {
+          return;
+        }
         g.isBegin = true;
       });
 
@@ -69,8 +85,10 @@
             }
           } else if (diff < 0 && dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
             g.isRefresh = false;
-            g.isLoad = true;
-            stopDefault(e);
+            ice.css(g.refresh, {
+              'display': 'block'
+            });
+            stopDefault(e, true);
             stepRun(diff);
           }
         } else {
@@ -106,6 +124,18 @@
 
         g.isBegin = false;
         g.isMove = false;
+
+        ice.css(g.refresh, {
+          'display': 'none'
+        });
+
+
+        // 清除定时器
+        g.isLoad = false;
+        if (g.isLoadTimer != null) {
+          clearTimeout(g.isLoadTimer);
+          g.isLoadTimer = null;
+        }
       });
 
       // 计算滚动高度
@@ -118,7 +148,7 @@
       };
 
       // 阻止默认事件
-      function stopDefault(e) {
+      function stopDefault(e, buildTimer) {
         e.preventDefault();
         if (!g.isMove) {
           ice.addClass(dom, 'user-select user-select');
@@ -127,7 +157,16 @@
           };
           g.isMove = true;
         }
+
+        if (buildTimer === true) {
+          // 如果托动有超过 n 毫秒，则加载更多
+          if (g.isLoadTimer == null) {
+            g.isLoadTimer = setTimeout(function() {
+              g.isLoad = true;
+            }, 450);
+          }
+        }
       };
-    }
+    };
   }
 })(ice);

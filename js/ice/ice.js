@@ -58,12 +58,14 @@
       }
     },
     // css3 选择器
-    query: function(s) {
+    query: function(s, dom) {
+      dom = dom == null ? document : dom;
       return document.querySelector(s);
     },
     // css3 选择器
-    queryAll: function(s) {
-      return document.querySelectorAll(s);
+    queryAll: function(s, dom) {
+      dom = dom == null ? document : dom;
+      return dom.querySelectorAll(s);
     },
     // 合并两个 json 对象
     extend: function(a, b) {
@@ -158,6 +160,36 @@
     }
   };
 
+  // 是否 function
+  ice.isFunction = function(fn) {
+    return Object.prototype.toString.call(fn) === '[object Function]';
+  };
+
+  // 是否空或者空字符串
+  ice.isEmpty = function(s) {
+    return s == null || s == '';
+  };
+
+  // null 转 ''
+  ice.toEmpty = function(s) {
+    return s == null ? '' : s;
+  };
+
+  // 阻止事件冒泡
+  ice.stopPropagation = function(e) {
+    e = e || window.event;
+    e.stopPropagation();
+  };
+
+  // 执行时间
+  ice.trigger = function(dom, e) {
+    try {
+      dom[e.replace(/^on/, '')]();
+    } catch (e) {
+      console.log('trigger:' + e.message);
+    }
+  };
+
   // 创建 HttpRequest
   function createHttpRequest() {
     var h;
@@ -215,15 +247,15 @@
           params += '&' + k + '=' + v;
         }
 
-        if(isget) {
-          myurl = myurl + (havep ? '?' : '') + params; 
+        if (isget) {
+          myurl = myurl + (havep ? '?' : '') + params;
         }
       }
 
       // 请求
       myhttp.open(type, myurl, options.async);
       if (!isget) {
-        myhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        myhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         myhttp.send(params);
       } else {
         myhttp.send(null);
@@ -251,5 +283,61 @@
     }
   };
 
+  // 标签切换
+  ice.choose = function(o) {
+    var options = {
+      selector: '',
+      // 切换的子元素选择器
+      children: 'div',
+      // 选中时附加的 class 样式
+      chooseClass: '',
+      // 默认选中
+      chooseIndex: 0,
+      // function 绑定 click 事件执行的方法
+      success: null
+    };
+    options = ice.extend(options, o);
+
+    // 查询标签
+    var $selector = ice.queryAll(options.selector);
+    var len = $selector == null ? 0 : $selector.length;
+    for (var i = 0; i < len; i++) {
+      var $domSel = $selector[i];
+      // 是否已经绑定事件
+      var isbind = $domSel.getAttribute('ichoose');
+      if (isbind !== '1') {
+        $domSel.setAttribute('ichoose', '1');
+        navBind($domSel, options);
+      }
+    }
+  };
+
+  // 绑定选择事件
+  function navBind($domSel, options) {
+    var clazz = options.chooseClass;
+    var isfun = ice.isFunction(options.success);
+    // 查询绑定子项
+    var $doms = ice.queryAll(options.children, $domSel);
+    var len = $doms == null ? 0 : $doms.length;
+    if (len > 0) {
+      var $choose = $doms[options.chooseIndex];
+      ice.addClass($choose, clazz);
+      for (var i = 0; i < len; i++) {
+        (function(idx) {
+          var $dom = $doms[idx];
+          // 添加绑定事件方法
+          $dom.addEventListener(ice.tapClick, function(e) {
+            ice.removeClass($choose, clazz);
+            ice.addClass($dom, clazz);
+            $choose = $dom;
+            if (isfun) {
+              options.success($dom, $domSel);
+            }
+          });
+        })(i);
+      }
+    }
+  }; 
+  
   window.ice = ice;
 })();
