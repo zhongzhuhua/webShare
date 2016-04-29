@@ -11,6 +11,26 @@
       var s = location.search.match(new RegExp('[?&]' + key + '=([^&]*)(&?)', 'i'));
       return (s == undefined || s == 'undefined' ? '' : s ? s[1] : s).replace(/[\<\>]/g, '');
     },
+    // 去掉 html 字符串
+    removeAttr: function(s) {
+      return s == null ? '' : s.replace(/<|>|\&/g, ' ');
+    },
+    // innerText
+    innerText: function(dom, text) {
+      if (dom != null) {
+        if (dom instanceof HTMLElement) {
+          if (typeof dom.textContent == 'string') {
+            dom.textContent = text;
+          } else {
+            dom.innerText = text;
+          }
+        } else {
+          for (var k in dom) {
+            this.innerText(dom[k], json);
+          }
+        }
+      }
+    },
     // 去掉左右空格
     trim: function(s) {
       return s != null ? s.replace(/(^\s*)|(\s*$)/g, '') : null;
@@ -203,7 +223,7 @@
       }
     }
     return xmlHttp;
-  }
+  };
 
   // ajax 请求
   ice.ajax = function(o) {
@@ -261,27 +281,36 @@
         myhttp.send(null);
       }
 
-      // 判断是否请求成功
-      myhttp.onreadystatechange = function() {
-        var finish = false;
-        if (myhttp.readyState == 4) {
-          if (myhttp.status == 200) {
-            finish = true;
-          }
-
-          if (finish) {
-            var result = myhttp.responseText;
-            if (options.dateType == 'json') {
-              result = ice.parseJson(result);
-            }
-            options.success(result);
-          } else {
-            options.error('request error');
-          }
-        }
-      };
+      if (options.async === false) {
+        ice.ajaxResult(myhttp, options);
+      } else {
+        myhttp.onreadystatechange = function() {
+          ice.ajaxResult(myhttp, options);
+        };
+      }
     }
   };
+
+  // 返回结果执行函数
+  ice.ajaxResult = function(myhttp, options) {
+    var finish = false;
+    if (myhttp.readyState == 4) {
+      if (myhttp.status == 200) {
+        finish = true;
+      }
+
+      if (finish) {
+        var result = myhttp.responseText;
+        if (options.dateType == 'json') {
+          result = ice.parseJson(result);
+        }
+        options.success(result);
+      } else {
+        options.error('request error');
+      }
+    }
+  };
+
 
   // 标签切换
   ice.choose = function(o) {
@@ -337,7 +366,7 @@
         })(i);
       }
     }
-  }; 
-  
+  };
+
   window.ice = ice;
 })();
