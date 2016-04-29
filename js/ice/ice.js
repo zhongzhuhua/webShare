@@ -301,7 +301,7 @@
 
       if (finish) {
         var result = myhttp.responseText;
-        if (options.dateType == 'json') {
+        if (options.dataType == 'json') {
           result = ice.parseJson(result);
         }
         options.success(result);
