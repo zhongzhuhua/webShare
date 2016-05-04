@@ -10,7 +10,7 @@
     request: function(key) {
       var s = location.search.match(new RegExp('[?&]' + key + '=([^&]*)(&?)', 'i'));
       return (s == undefined || s == 'undefined' ? '' : s ? s[1] : s).replace(/[\<\>]/g, '');
-    }, 
+    },
     // 去掉 html 字符串
     removeAttr: function(s) {
       return s == null ? '' : s.replace(/<|>|\&/g, ' ');
@@ -261,12 +261,12 @@
           havep = true;
         }
         // 请求类型
-        if(typeof data != 'string') {
+        if (typeof data != 'string') {
           for (var k in data) {
             var v = data[k];
             v = v == null ? '' : v;
             params += '&' + k + '=' + v;
-          } 
+          }
         } else {
           params = data;
         }
@@ -275,14 +275,14 @@
           myurl = myurl + (havep ? '?' : '') + params;
         }
       }
- 
+
       // 请求
       var async = options.async == null ? true : options.async;
       myhttp.open(type, myurl, async);
       if (!isget) {
         var header = options.header;
-        if(header != null) {
-          for(var key in header) {
+        if (header != null) {
+          for (var key in header) {
             myhttp.setRequestHeader(key, header[key]);
           }
         }
@@ -295,7 +295,7 @@
         ice.ajaxResult(myhttp, options);
       } else {
         myhttp.onreadystatechange = function() {
-          ice.ajaxResult(myhttp, options); 
+          ice.ajaxResult(myhttp, options);
         };
       }
     }
@@ -330,7 +330,7 @@
       children: 'div',
       // 选中时附加的 class 样式
       chooseClass: '',
-      // 默认选中下标，如果是 -1 则找第一个 chooseClass
+      // 默认选中下标，如果是 dom 数组，则为对应 selector 的选中元素
       chooseIndex: 0,
       // function 绑定 click 事件执行的方法
       success: null
@@ -346,28 +346,29 @@
       var isbind = $domSel.getAttribute('ichoose');
       if (isbind !== '1') {
         $domSel.setAttribute('ichoose', '1');
-        console.log($domSel);
-        navBind($domSel, options);
+        navBind($domSel, options, i);
       }
     }
   };
 
   // 绑定选择事件
-  function navBind($domSel, options) {
+  function navBind($domSel, options, i) {
     var clazz = options.chooseClass;
     var isfun = ice.isFunction(options.success);
     // 查询绑定子项
     var $doms = ice.queryAll(options.children, $domSel);
     var len = $doms == null ? 0 : $doms.length;
     if (len > 0) {
-      var $choose = null; 
+      var $choose = null;
       var cidx = options.chooseIndex;
-      if(cidx != null && cidx == '-1') {
-        $choose = ice.query('.' + options.chooseClass, $domSel);
-      } else {
-        $choose = $doms[options.chooseIndex];
+      if (cidx != null) {
+        if (typeof cidx == 'number') {
+          $choose = $doms[options.chooseIndex];
+        } else if (cidx.length >= i) {
+          $choose = options.chooseIndex[i];
+        }
       }
-      ice.addClass($choose, clazz);
+      ice.addClass($choose, options.chooseClass);
 
       for (var i = 0; i < len; i++) {
         (function(idx) {
