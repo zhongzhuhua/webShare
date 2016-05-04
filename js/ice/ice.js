@@ -80,7 +80,7 @@
     // css3 选择器
     query: function(s, dom) {
       dom = dom == null ? document : dom;
-      return document.querySelector(s);
+      return dom.querySelector(s);
     },
     // css3 选择器
     queryAll: function(s, dom) {
@@ -346,6 +346,7 @@
       var isbind = $domSel.getAttribute('ichoose');
       if (isbind !== '1') {
         $domSel.setAttribute('ichoose', '1');
+        console.log($domSel);
         navBind($domSel, options);
       }
     }
@@ -366,8 +367,8 @@
       } else {
         $choose = $doms[options.chooseIndex];
       }
-
       ice.addClass($choose, clazz);
+
       for (var i = 0; i < len; i++) {
         (function(idx) {
           var $dom = $doms[idx];
