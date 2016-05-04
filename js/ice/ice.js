@@ -330,7 +330,7 @@
       children: 'div',
       // 选中时附加的 class 样式
       chooseClass: '',
-      // 默认选中
+      // 默认选中下标，如果是 -1 则找第一个 chooseClass
       chooseIndex: 0,
       // function 绑定 click 事件执行的方法
       success: null
@@ -359,7 +359,14 @@
     var $doms = ice.queryAll(options.children, $domSel);
     var len = $doms == null ? 0 : $doms.length;
     if (len > 0) {
-      var $choose = $doms[options.chooseIndex];
+      var $choose = null; 
+      var cidx = options.chooseIndex;
+      if(cidx != null && cidx == '-1') {
+        $choose = ice.query('.' + options.chooseClass, $domSel);
+      } else {
+        $choose = $doms[options.chooseIndex];
+      }
+
       ice.addClass($choose, clazz);
       for (var i = 0; i < len; i++) {
         (function(idx) {
