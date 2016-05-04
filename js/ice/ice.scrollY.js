@@ -83,12 +83,10 @@
                 'transform': 'rotate(' + deg + ')'
               });
             }
-          } else if (diff < 0 && dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
+          } else if (diff < 0 && dom.scrollTop + dom.clientHeight >= dom.scrollHeight - 1) {
             g.isRefresh = false;
-            ice.css(g.refresh, {
-              'display': 'block'
-            });
-            stopDefault(e, true);
+            g.isLoad = true;
+            stopDefault(e);
             stepRun(diff);
           }
         } else {
@@ -114,8 +112,11 @@
           try {
             if (g.isRefresh && g.refreshFun) {
               g.refreshFun();
-            } else if (g.isLoad && g.loadFun) {
-              g.loadFun();
+            } else if (g.loadFun) {
+              var cango = dom.getAttribute('scroll-go');
+              if(!(cango != null && cango == '0')) {
+                g.loadFun(g.refresh);
+              }
             }
           } catch (e) {
             console.log(e.message);
@@ -124,11 +125,6 @@
 
         g.isBegin = false;
         g.isMove = false;
-
-        ice.css(g.refresh, {
-          'display': 'none'
-        });
-
 
         // 清除定时器
         g.isLoad = false;
@@ -157,16 +153,17 @@
           };
           g.isMove = true;
         }
-
-        if (buildTimer === true) {
-          // 如果托动有超过 n 毫秒，则加载更多
-          if (g.isLoadTimer == null) {
-            g.isLoadTimer = setTimeout(function() {
-              g.isLoad = true;
-            }, 450);
-          }
-        }
       };
+    };
+
+    // 可以滚动
+    ice.scrollY.start = function(dom) {
+      dom.setAttribute('scroll-go', '1');
+    };
+
+    // 禁用滚动
+    ice.scrollY.stop = function(dom) {
+      dom.setAttribute('scroll-go', '0');
     };
   }
 })(ice);

@@ -10,7 +10,7 @@
     request: function(key) {
       var s = location.search.match(new RegExp('[?&]' + key + '=([^&]*)(&?)', 'i'));
       return (s == undefined || s == 'undefined' ? '' : s ? s[1] : s).replace(/[\<\>]/g, '');
-    },
+    }, 
     // 去掉 html 字符串
     removeAttr: function(s) {
       return s == null ? '' : s.replace(/<|>|\&/g, ' ');
@@ -104,7 +104,7 @@
     parseInt: function(str) {
       try {
         var v = parseInt(str, 10);
-        return isNaN(v) || v == undefined ? 0 : v;
+        return isNaN(v) || v == null ? 0 : v;
       } catch (e) {
         return 0;
       }
@@ -112,7 +112,7 @@
     parseFloat: function(str, point) {
       try {
         var v = parseFloat(str);
-        return isNaN(v) || v == undefined ? 0 : v.toFixed(point == undefined ? 0 : point);
+        return isNaN(v) || v == null ? 0 : point == null ? v : v.toFixed(point);
       } catch (e) {
         return 0;
       }
@@ -120,7 +120,7 @@
     parseDate: function(str) {
       var date = null;
       try {
-        if (str != undefined && str != '') {
+        if (str != null && str != '') {
           var regNum = /^[1-3][0-9]{7}$/;
           if (str instanceof Date) {
             date = str
@@ -144,6 +144,18 @@
     // 转成 json
     parseJson: function(s) {
       return s == null || this.trim(s) == '' ? null : eval('(' + s + ')');
+    },
+    // 是否 function
+    isFunction: function(fn) {
+      return Object.prototype.toString.call(fn) === '[object Function]';
+    },
+    // 是否空或者空字符串
+    isEmpty: function(s) {
+      return s == null || s == '';
+    },
+    // null 转 ''
+    toEmpty: function(s) {
+      return s == null ? '' : s;
     },
     // 转换字符串
     formatDate: function(date, format) {
@@ -180,21 +192,6 @@
     }
   };
 
-  // 是否 function
-  ice.isFunction = function(fn) {
-    return Object.prototype.toString.call(fn) === '[object Function]';
-  };
-
-  // 是否空或者空字符串
-  ice.isEmpty = function(s) {
-    return s == null || s == '';
-  };
-
-  // null 转 ''
-  ice.toEmpty = function(s) {
-    return s == null ? '' : s;
-  };
-
   // 阻止事件冒泡
   ice.stopPropagation = function(e) {
     e = e || window.event;
@@ -225,19 +222,22 @@
     return xmlHttp;
   };
 
+  // 默认参数
+  var ajaxDefault = {
+    url: null,
+    cache: true,
+    async: true,
+    type: 'get',
+    dataType: 'text',
+    // application/x-www-form-urlencoded application/json; charset=UTF-8
+    header: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
+  };
+
   // ajax 请求
   ice.ajax = function(o) {
-    var options = {
-      url: null,
-      type: 'get',
-      async: true,
-      cache: true,
-      dateType: 'text',
-      data: null,
-      success: function() {},
-      error: function() {}
-    };
-    options = ice.extend(options, o);
+    var options = ice.extend(ajaxDefault, o);
     var myurl = options.url;
     var myhttp = createHttpRequest();
 
@@ -261,31 +261,41 @@
           havep = true;
         }
         // 请求类型
-        for (var k in data) {
-          var v = data[k];
-          v = v == null ? '' : v;
-          params += '&' + k + '=' + v;
+        if(typeof data != 'string') {
+          for (var k in data) {
+            var v = data[k];
+            v = v == null ? '' : v;
+            params += '&' + k + '=' + v;
+          } 
+        } else {
+          params = data;
         }
 
         if (isget) {
           myurl = myurl + (havep ? '?' : '') + params;
         }
       }
-
+ 
       // 请求
-      myhttp.open(type, myurl, options.async);
+      var async = options.async == null ? true : options.async;
+      myhttp.open(type, myurl, async);
       if (!isget) {
-        myhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var header = options.header;
+        if(header != null) {
+          for(var key in header) {
+            myhttp.setRequestHeader(key, header[key]);
+          }
+        }
         myhttp.send(params);
       } else {
         myhttp.send(null);
       }
 
-      if (options.async === false) {
+      if (options.async == false) {
         ice.ajaxResult(myhttp, options);
       } else {
         myhttp.onreadystatechange = function() {
-          ice.ajaxResult(myhttp, options);
+          ice.ajaxResult(myhttp, options); 
         };
       }
     }
@@ -304,13 +314,13 @@
         if (options.dataType == 'json') {
           result = ice.parseJson(result);
         }
+
         options.success(result);
       } else {
         options.error('request error');
       }
     }
   };
-
 
   // 标签切换
   ice.choose = function(o) {
