@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-  var mozjpeg = require('imagemin-mozjpeg');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -8,12 +7,12 @@ module.exports = function(grunt) {
     concat: {
       // 合并公用 css
       commonCss: {
-        src: ['assets/lib/layer.mobile/layer/need/layer.css', 'assets/css/global.css', 'assets/css/layout.css'],
-        dest: 'dist/assets/css/common.css'
+        src: ['assets/lib/layer.mobile/layer/need/layer.css', 'assets/css/global.css', 'assets/lib/ice.scrollY/main.css', 'assets/css/layout.css', 'assets/css/dev.css'],
+        dest: 'assets/css/common.css'
       },
-      // 合并插件 js
-      libJs: {
-        src: ['assets/lib/require.js', 'assets/lib/require.config.js', 'assets/lib/ice.js', 'assets/lib/ice.scrollY.js'],
+      // 合并 commonjs
+      commonJs: {
+        src: ['assets/lib/require.js', 'assets/lib/require.config.js', 'assets/lib/ice.js', 'assets/lib/ice.scrollY/main.js'],
         dest: 'dist/assets/js/common.js'
       }
     },
@@ -26,7 +25,7 @@ module.exports = function(grunt) {
       },
       // 压缩公用 css
       commonCss: {
-        src: 'dist/assets/css/common.css',
+        src: 'assets/css/common.css',
         dest: 'dist/assets/css/common.css'
       }
     },
@@ -40,7 +39,7 @@ module.exports = function(grunt) {
         compress: false,
         stripBanners: true
       },
-      build: {
+      commonJs: {
         files: [{
           expand: true,
           cwd: 'dist/assets/js/',
@@ -48,7 +47,10 @@ module.exports = function(grunt) {
           dest: 'dist/assets/js/',
           extDot: '',
           ext: '.js'
-        }, {
+        }]
+      },
+      js: {
+        files: [{
           expand: true,
           cwd: 'assets/js/',
           src: ['*/*.js'],
@@ -70,9 +72,30 @@ module.exports = function(grunt) {
       }
     },
 
-    // =============== 插件复制 =============
+    // =============== 复制 =============
     copy: {
-      main: {
+      icon: {
+        files: [{
+          expand: true,
+          src: ['favicon.icon'],
+          dest: 'dist/'
+        }]
+      },
+      app: {
+        files: [{
+          expand: true,
+          src: ['app/**'],
+          dest: 'dist/'
+        }]
+      },
+      action: {
+        files: [{
+          expand: true,
+          src: ['wechat/**'],
+          dest: 'dist/'
+        }]
+      },
+      lib: {
         files: [{
           expand: true,
           src: ['assets/lib/*/**'],
@@ -99,15 +122,14 @@ module.exports = function(grunt) {
 
     // ============== 图片压缩 =============
     imagemin: {
-      dynamic: {
+      main: {
         options: {
-          //定义 PNG 图片优化水平
-          optimizationLevel: 7,
+          //定义 jpg png 图片优化水平
+          optimizationLevel: 4,
           pngquant: true,
           svgoPlugins: [{
             removeViewBox: false
-          }],
-          use: [mozjpeg()]
+          }]
         },
         files: [{
           expand: true,
@@ -120,25 +142,58 @@ module.exports = function(grunt) {
 
     // ============== 监控 =================
     watch: {
+      // 监控配置
       options: {
         // 1s 执行，默认 500ms
         debounceDelay: 1000
       },
-      lib: {
-        files: 'assets/lib/**/*',
-        tasks: ['lib']
+
+      // 后端文件
+      app: {
+        files: ['app/**'],
+        tasks: ['copy:app']
       },
+
+      // 接口文件
+      action: {
+        files: ['wechat/**'],
+        tasks: ['copy:action']
+      },
+
+      // 小图标
+      icon: {
+        files: ['*.icon'],
+        tasks: ['copy:icon']
+      },
+
+      // 合并压缩 common.js
+      commonJs: {
+        files: ['assets/lib/*.js', 'assets/lib/ice.scrollY/main.js'],
+        tasks: ['concat:commonJs', 'uglify:commonJs']
+      },
+
+      // 合并压缩 common.css
+      commonCss: {
+        files: ['assets/css/*.css', 'assets/lib/ice.scrollY/main.css'],
+        tasks: ['concat:commonCss', 'cssmin:commonCss' ]
+      },
+
+      // 压缩项目普通脚本
       scripts: {
-        files: 'assets/js/**/*',
-        tasks: ['jsmin']
+        files: ['assets/js/**/*'],
+        tasks: ['uglify:js']
       },
-      css: {
-        files: 'assets/css/*.css',
-        tasks: ['cssmini']
-      },
+
+      // 合并项目 html 代码
       html: {
-        files: ['html/**/*', 'module/*'],
-        tasks: ['html']
+        files: ['html/**/*', 'modules/*'],
+        tasks: ['includereplace', 'htmlmin']
+      },
+
+      // 插件复制
+      lib: {
+        files: ['assets/lib/*/**'],
+        tasks: ['copy:lib']
       }
     }
   });
@@ -151,29 +206,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-
   grunt.registerTask('img', '图片压缩', function() {
     grunt.task.run(['imagemin']);
-  });
-
-  grunt.registerTask('lib', '复制插件', function() {
-    grunt.task.run(['copy']);
-  });
-
-  grunt.registerTask('cssmini', '合并压缩样式', function() {
-    grunt.task.run(['concat', 'cssmin']);
-  });
-
-  grunt.registerTask('jsmin', '合并压缩脚本', function() {
-    grunt.task.run(['concat', 'uglify']);
-  });
-
-  grunt.registerTask('include', '合并页面', function() {
-    grunt.task.run('includereplace');
-  });
-
-  grunt.registerTask('html', '压缩页面', function() {
-    grunt.task.run(['include', 'htmlmin']);
   });
 
   grunt.registerTask('pack', '监控打包', function() {
@@ -181,6 +215,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', '默认任务', function() {
-    grunt.task.run(['concat', 'cssmin', 'uglify', 'includereplace'])
+    grunt.task.run(['concat', 'cssmin', 'uglify', 'includereplace', 'htmlmin', 'copy'])
   });
 };

@@ -134,6 +134,8 @@ img {
   -ms-flex: 1;
   -o-flex: 1;
   flex: 1;
+
+  display: block;
 }
 
 .txt-l {
