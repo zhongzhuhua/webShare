@@ -5,7 +5,7 @@
       if (dom == null || dom.getAttribute('scrollY') == '') {
         return;
       } 
-
+ 
       // 配置
       var g = {
         // 刷新 dom 元素
@@ -38,7 +38,10 @@
         // 是否执行刷新和加载
         isRun: false,
         // 目前移动距离
-        runDiff: 0
+        runDiff: 0,
+        // 按住多少毫秒执行事件
+        runTime: 500,
+        runBegin: 0
       };
 
       dom.setAttribute('scroll-load', '1');
@@ -69,6 +72,7 @@
           return;
         }
         g.isBegin = true;
+        g.runBegin = new Date().getTime();
       });
 
       // 滑动事件
@@ -109,12 +113,14 @@
         }
 
         // 如果超过则执行函数
-        if (Math.abs(g.runDiff) > g.runHeightRealy) {
-          if (g.runDiff > 0 && g.refresh && g.refreshFun) {
-            g.refreshFun();
-          } else if (g.runDiff < 0 && g.load && g.loadFun) {
-            if(dom.getAttribute('scroll-load') !== '0') {
-              g.loadFun();
+        if(new Date().getTime() - g.runBegin > g.runTime) {
+          if (Math.abs(g.runDiff) > g.runHeightRealy) {
+            if (g.runDiff > 0 && g.refresh && g.refreshFun) {
+              g.refreshFun();
+            } else if (g.runDiff < 0 && g.load && g.loadFun) {
+              if(dom.getAttribute('scroll-load') !== '0') {
+                g.loadFun();
+              }
             }
           }
         }
