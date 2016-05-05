@@ -28,41 +28,56 @@ section {
 body {
   overflow-x: hidden;
   font-family: "Microsoft YaHei", "PingHei", "Lucida Grande", "Lucida Sans Unicode", "STHeiti", "Helvetica", "Arial", "Verdana", "sans-serif";
-  font-size: 14px;
-  color: #333;
+  font-size: 87.5%;
+  color: #494b4c;
   /* 关闭字体自动调整大小 */
   -webkit-text-size-adjust: none;
   /* 滚动顺畅 */
   -webkit-overflow-scrolling: touch;
 }
 
-@media screen and (max-width: 320px) {
-  body {
-    font-size: 14px;
+a {
+  color: #494b4c;
+  text-decoration: none;
+  display: inline-block;
+}
+
+input {
+  outline: none;
+  border-radius: 0;
+  background-color: inherit;
+  box-shadow: none;
+
+  -webkit-box-shadow: none;
+}
+
+@media screen and (max-width: 360px) {
+  html {
+    font-size: 86%;
   }
 }
 
-@media screen and (min-width: 321px) and (max-width: 480px) {
+@media screen and (min-width: 361px) and (max-width: 480px) {
   body {
-    font-size: 16px;
+    font-size: 100%;
   }
 }
 
 @media screen and (min-width: 481px) and (max-width: 640px) {
   body {
-    font-size: 18px;
+    font-size: 114%;
   }
 }
 
 @media screen and (min-width: 641px) and (max-width: 800px) {
   body {
-    font-size: 24px;
+    font-size: 125%;
   }
 }
 
 @media screen and (min-width: 801px) {
   body {
-    font-size: 30px;
+    font-size: 137.5%;
   }
 }
 
@@ -76,65 +91,87 @@ img {
   user-select: none;
 }
 
-/* 美化谷歌滚动条 begin */
-
-::-webkit-scrollbar {
-  height: 16px;
-  overflow: visible;
-  width: 14px;
+a {
+  text-decoration: none;
 }
 
-::-webkit-scrollbar-track {
-  background-clip: padding-box;
-  border: solid transparent;
-  border-width: 0px 0px 0px 7px;
-  border-radius: 8px;
+img {
+  width: 100%;
+  height: 100%;
 }
 
-::-webkit-scrollbar-track:hover {
-  background-clip: padding-box;
-  background-color: #dcdcdc;
-  border: solid transparent;
+.user-select {
+  user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -ms-user-select: -ms-none;
+  -o-user-select: none;
 }
 
-::-webkit-scrollbar-corner {
-  background: transparent;
+.clear {
+  clear: both;
+  font-size: 0;
+  height: 0;
 }
 
-::-webkit-scrollbar-button {}
-
-::-webkit-scrollbar-track-piece {}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, .25);
-  background-clip: padding-box;
-  border: solid transparent;
-  min-height: 28px;
-  padding: 100px 0 0;
-  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset -1px -1px 0 rgba(0, 0, 0, .07);
-  border-radius: 8px
+.flex {
+  display: -webkit-box;
+  display: box;
+  
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: -webkit-flex;
+  display: flex;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, .3);
-  background-position: -10px center;
+.flex-1 {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
+  -o-flex: 1;
+  flex: 1;
 }
 
-::-webkit-scrollbar-thumb:active {
-  background-color: rgba(0, 0, 0, .4);
-  background-position: -20px center;
+.txt-l {
+  text-align: left;
 }
 
-.wk-scrolltimedevents {
-  position: relative;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  border-top: 1px solid #DDD;
-  border-left: 0 none;
-  border-bottom: 1px solid #DDD;
-  padding: 0;
-  font-size: 11px;
-  line-height: normal;
+.txt-c {
+  text-align: center;
 }
 
-/* 美化谷歌滚动条 end */
+.txt-r {
+  text-align: right;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+/* 超出的字体变省略号 */
+.textover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.textover2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  display: box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
