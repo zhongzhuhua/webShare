@@ -16,39 +16,23 @@
 </head>
 
 <body>
-  <div class="ice">
-    <div class="ice-nav" style="border-bottom: 1px solid red;">
-    	首页
-    </div>
-    <div class="ice-refresh"><span></span></div>
-    <div class="ice-loading"><span></span></div>
-    <div class="ice-main ice-main-bar ice-main-nav">
-    	内容
-    </div>
-    <div class="ice-bar" style="border-top: 1px solid red;">
-      底部
-    </div>
-  </div>
+	<div class="ice">
+  	<div class="ice-refresh"><span></span></div>
+  	<div class="ice-main" id="main"></div>
+	</div>
 </body>
-<script src="../ice.js"></script>
-<script src="main.js"></script>
+<script src="/assets/js/common.js"></script>
 <script>
- 	var domNav = ice.query('.ice-nav');
-  var domMain = ice.query('.ice-main');
-  var domRefresh = ice.query('.ice-refresh');
-  var domLoading = ice.query('.ice-loading');
-
-	ice.scrollY(domMain, {
-    refresh: domRefresh,
-    load: domLoading,
-    refreshFun: function() {
-    	console.log('刷新')
-    },
-    loadFun: function() {
-    	console.log('加载')
-    }
-  });
+ice.scrollY(ice.query('.ice'), {
+  refresh: ice.query('.ice-refresh')
+});
 </script>
-
+<script>
+var html = '';
+for (var i = 0; i < 50; i++) {
+  html += '<div>' + i + '</div>';
+}
+document.querySelector('#main').innerHTML = html;
+</script>
 
 </html>
