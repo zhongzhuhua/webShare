@@ -26,10 +26,10 @@ section {
 }
 
 body {
-  overflow-x: hidden;
   font-family: 'Microsoft YaHei', 'PingHei', 'Lucida Grande', 'Lucida Sans Unicode', 'STHeiti', 'Helvetica', 'Arial', 'Verdana', 'sans-serif'; 
-  color: #494b4c;
-  font-size: 85%;
+  color: #7a7c80;
+  font-size: 88%;
+  overflow-x: hidden;
   /* 关闭字体自动调整大小 */
   -webkit-text-size-adjust: none;
   /* 滚动顺畅 */
@@ -37,7 +37,7 @@ body {
 }
 
 a {
-  color: #494b4c;
+  color: #7a7c80;
   text-decoration: none;
   display: inline-block;
 }
@@ -50,37 +50,9 @@ input {
   -webkit-box-shadow: none;
 }
 
-@media screen and (max-width: 360px) {
-  html {
-    font-size: 85%;
-  }
-}
-
-@media screen and (min-width: 361px) and (max-width: 480px) {
-  body {
-    font-size: 90%;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 640px) {
-  body {
-    font-size: 95%;
-  }
-}
-
-@media screen and (min-width: 641px) and (max-width: 800px) {
-  body {
-    font-size: 100%;
-  }
-}
-
-@media screen and (min-width: 801px) {
-  body {
-    font-size: 105%;
-  }
-}
-
 a,
+span,
+div,
 img {
   /* 长按不要呼出默认菜单 */
   -webkit-touch-callout: none;
@@ -88,6 +60,10 @@ img {
   -webkit-tap-highlight-color: transparent;
   /* 不要选中文本 */
   user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -ms-user-select: -ms-none;
+  -o-user-select: none;
 }
 
 a {
@@ -97,6 +73,7 @@ a {
 img {
   width: 100%;
   height: 100%;
+  border: 0;
 }
 
 .user-select {
@@ -137,6 +114,15 @@ img {
   display: block;
 }
 
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+
+  box-sizing: border-box;
+}
+
 .txt-l {
   text-align: left;
 }
@@ -174,5 +160,3 @@ img {
 .hidden {
   display: none !important;
 }
-
-
