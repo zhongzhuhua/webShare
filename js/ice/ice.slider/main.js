@@ -10,8 +10,8 @@
       // 10 毫秒执行一次 left 变化
       runTime: 10,
       // 左右箭头
-      leftArrow: '',
-      rightArrow: '',
+      leftArrow: '<',
+      rightArrow: '>',
       // 每步移动 n% 
       runStep: 4,
       selector: '.ice-slider',
