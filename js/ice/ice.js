@@ -1,5 +1,5 @@
 (function() {
-  // 插件
+  // 插件 数字正则 /^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$/
   var ice = {
     isMobile: ('ontouchend' in document),
     tapStart: ('ontouchstart' in document) ? 'touchstart' : 'mousedown',
@@ -19,7 +19,7 @@
     // innerText
     innerText: function(dom, text) {
       if (dom != null) {
-        if (dom instanceof HTMLElement) {
+        if (this.isElement(dom)) {
           if (typeof dom.textContent == 'string') {
             dom.textContent = text;
           } else {
@@ -39,7 +39,7 @@
     // 设置 style
     css: function(dom, json) {
       if (dom != null) {
-        if (dom instanceof HTMLElement) {
+        if (this.isElement(dom)) {
           for (var k in json) {
             dom.style[k] = json[k];
             dom.style['-webkit-' + k] = json[k];
@@ -57,7 +57,7 @@
     // 添加样式
     addClass: function(dom, clazz) {
       if (dom != null && clazz != null && clazz != '') {
-        if (dom instanceof HTMLElement) {
+        if (this.isElement(dom)) {
           dom.className = dom.className + ' ' + clazz;
         } else {
           for (var k in dom) {
@@ -69,7 +69,7 @@
     // 删除样式
     removeClass: function(dom, clazz) {
       if (dom != null && clazz != null && clazz != '') {
-        if (dom instanceof HTMLElement) {
+        if (this.isElement(dom)) {
           dom.className = this.trim(dom.className.replace(new RegExp(clazz, 'g'), ''));
         } else {
           for (var k in dom) {
@@ -145,6 +145,10 @@
     // 转成 json
     parseJson: function(s) {
       return s == null || this.trim(s) == '' ? null : eval('(' + s + ')');
+    },
+    // 是否 HTMLElement
+    isElement: function(d) {
+      return (d && d instanceof HTMLElement);
     },
     // 是否 function
     isFunction: function(fn) {
