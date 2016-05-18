@@ -1,5 +1,5 @@
 (function() {
-  // 插件 数字正则 /^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$/
+  // 插件
   var ice = {
     isMobile: ('ontouchend' in document),
     tapStart: ('ontouchstart' in document) ? 'touchstart' : 'mousedown',
@@ -328,19 +328,25 @@
         if (options.dataType == 'json') {
           try {
             result = ice.parseJson(result);
-          } catch(e) {
+          } catch (e) {
             result = 'json parse error';
           }
         }
 
         options.success(result);
       } else {
-        if(ice.isFunction(options.error)) {
+        if (ice.isFunction(options.error)) {
           console.log('request error');
-          options.error(myhttp);  
+          options.error(myhttp);
         }
       }
     }
+  };
+
+  // 常用正则表达
+  ice.reg = {
+    int: /^[+-]?([1-9][0-9]*|0+)$/,
+    float: /^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$/
   };
 
   window.ice = ice;
