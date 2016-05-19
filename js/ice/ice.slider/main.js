@@ -57,12 +57,13 @@
           phtml += ice.sliderPoint;
           rlen++;
         }
-        var dom = document.createElement('div');
-        dom.innerHTML = html
-        $main.appendChild(dom);
-        $footer.innerHTML = phtml;
       }
 
+      var dom = document.createElement('div');
+      dom.innerHTML = html
+      $main.appendChild(dom);
+      $footer.innerHTML = phtml;
+      
       // 设置 left
       $links = ice.queryAll('.is-link', $main);
       $points = ice.queryAll('span', $footer);
