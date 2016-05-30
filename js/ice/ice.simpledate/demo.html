@@ -16,13 +16,14 @@
 </head>
 
 <body>
-  <span id="ice-simpledate" data-year="2015" data-month="11" data-date="13">请选择日期</span>
+  <span id="ice-simpledate"></span>
   
   <script src="../../ice/ice.js"></script>  
   <script src="main.js"></script>  
   <script>
   ice.simpledate({
   	btntext: '清空并关闭',
+    initValue: '2015-01-13',
   	success: function(calendar) {
   		console.log(calendar.getValue());
   	},
