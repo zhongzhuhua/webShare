@@ -14,6 +14,14 @@
   overflow: hidden;
 }
 
+.ice-simpledate-shadow {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .6);
+}
+
 .ice-simpledate .ic-top,
 .ice-simpledate .ic-button {
   height: 3rem;
