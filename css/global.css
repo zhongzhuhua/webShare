@@ -26,6 +26,8 @@ section {
 }
 
 body {
+  /* ios android winPhone 适配，注释掉的这句字体，在3种系统中，外观最接近 */
+  /*font-family: 'Helvetica Neue', Helvetica, STHeiti, sans-serif;*/
   font-family: 'Microsoft YaHei', 'PingHei', 'Lucida Grande', 'Lucida Sans Unicode', 'STHeiti', 'Helvetica', 'Arial', 'Verdana', 'sans-serif'; 
   color: #7a7c80;
   font-size: 16px;
