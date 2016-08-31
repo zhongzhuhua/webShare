@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- class = ui-slider-active 是选中的项，必填 -->
+    <!-- slider-index = ui-slider-active 的 index ，必须配置 -->
+    <!-- ui-slider-fade 是渐变效果， ui-slider-lr 是左右滑动效果， ui-slider-ud 是上下滑动效果，目前可以不写，但是建议写上  -->
+    <!-- class="ui-slider ui-slider-fade" -->
+    <!-- slider-sign 指定对应的切换对应的小点，此配置必须是 id 或者页面内单一选择器 -->
+    <!-- slider-time 自动切换时间，不启用不配置就可以了，建议不低于 5000ms -->
+    <div class="ui-slider" slider-index="0" slider-sign="slider-sign" slider-time="5000">
+        <div class="ui-slider-content ui-slider-active egg"></div>
+        <div class="ui-slider-content egg-red"></div>
+        <div class="ui-slider-content egg-blue"></div>
+    </div>
+    <!-- 避免 js 多计算和渲染，手动配置该 sign 个数和 ui-slider 个数一致 -->
+    <!-- ui-slider-choose 是选中的项，必填，和 ui-slider 保持 index 一致 -->
+    <!-- class="ui-slider-sign" 没有实际样式，只是用来标识 sign，实际使用可以手动配置 ui-slider-sign 和 choose 的样式 -->
+    <!-- slider-index 是当前的 index，为简单脚本计算，当前不自动，必写 -->
+    <!-- 
+        注意，当 ui-slider-sign 是多层的时候，需要对多层都配置 slider-index
+        <span class="ui-slider-sign" slider-index="0">
+            <div slider-index="0">
+                <span slider-index="0"></span>
+            </div>
+        </span>
+    -->
+    <div id="slider-sign" class="sign">
+        <span class="ui-slider-sign ui-slider-choose" slider-index="0"></span>
+        <span class="ui-slider-sign" slider-index="1"></span>
+        <span class="ui-slider-sign" slider-index="2"></span>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

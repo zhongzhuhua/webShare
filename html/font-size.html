@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>Document</title>
+    <script>
+    (function() {
+        var domHtml = document.querySelector('html');
+        var screenWidth = screen.width;
+
+        function setFontSize() {
+            var width = domHtml.clientWidth < screenWidth ? domHtml.clientWidth : screenWidth;
+            domHtml.style.fontSize = width * 100 / 750 + 'px';
+        };
+
+        window.addEventListener('resize', function() {
+            setFontSize();
+        });
+        setFontSize();
+    })();
+    </script>
+    <style>
+    body {
+        font-size: .32rem;
+    }
+    
+    html,
+    body,
+    div,
+    section,
+    header,
+    footer {
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <style>
+    header {
+        height: .64rem;
+        border-bottom: 1px solid red;
+    }
+    
+    footer {
+        height: .64rem;
+        border-bottom: 1px solid red;
+    }
+    </style>
+    <header>头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部头部</header>
+    <footer>底部</footer>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-.ui-slider-p {
+.ui-slider {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -6,23 +6,39 @@
     overflow: hidden;
 }
 
-.ui-slider-p .ui-slider-content {
+.ui-slider > .ui-slider-content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: #eee;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 
-.ui-slider-fade .ui-slider-content {
+.ui-slider-fade > .ui-slider-content {
     opacity: 0;
 }
 
-.ui-slider-fade .ui-slider-content.ui-slider-active {
+.ui-slider-fade > .ui-slider-content.ui-slider-active {
     opacity: 1;
-    
-    transition: opacity 2s;
     -webkit-transition: opacity 2s;
+    -moz-transition: opacity 2s;
+    transition: opacity 2s;
+}
+
+.ui-slider-lr > .ui-slider-content {
+    left: 100%;
+}
+
+.ui-slider-lr > .ui-slider-content.ui-slider-active {
+    left: 0;
+}
+
+.ui-slider-ud > .ui-slider-content {
+    top: 100%;
+}
+
+.ui-slider-ud > .ui-slider-content.ui-slider-active {
+    top: 0;
 }
