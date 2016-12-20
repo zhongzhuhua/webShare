@@ -1,4 +1,4 @@
-(function() {
+(function () {
   // 插件
   var ice = {
     isMobile: ('ontouchend' in document),
@@ -8,20 +8,20 @@
     tapClick: ('ontouchstart' in document) ? 'touchstart' : 'click',
     tapKeyup: ('oninput' in document) ? 'input' : 'keyup',
     // 获取参数 url 
-    request: function(key) {
+    request: function (key) {
       var s = location.search.match(new RegExp('[?&]' + key + '=([^&]*)(&?)', 'i'));
       return (s == undefined || s == 'undefined' ? '' : s ? s[1] : s).replace(/[\<\>]/g, '');
     },
     // 去掉 html 字符串
-    removeAttr: function(s) {
+    removeAttr: function (s) {
       return s == null ? '' : s.replace(/<|>|\&/g, ' ');
     },
-    replaceHtml: function(s) {
+    replaceHtml: function (s) {
       if (s == null || s == '') return '';
       return s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     },
     // innerText
-    innerText: function(dom, text) {
+    innerText: function (dom, text) {
       if (dom != null) {
         if (this.isElement(dom)) {
           if (typeof dom.textContent == 'string') {
@@ -37,11 +37,11 @@
       }
     },
     // 去掉左右空格
-    trim: function(s) {
+    trim: function (s) {
       return s != null ? s.replace(/(^\s*)|(\s*$)/g, '') : null;
     },
     // 设置 style
-    css: function(dom, json) {
+    css: function (dom, json) {
       if (dom != null) {
         if (this.isElement(dom)) {
           for (var k in json) {
@@ -59,7 +59,7 @@
       }
     },
     // 添加样式
-    addClass: function(dom, clazz) {
+    addClass: function (dom, clazz) {
       if (dom != null && clazz != null && clazz != '') {
         if (this.isElement(dom)) {
           dom.className = dom.className + ' ' + clazz;
@@ -71,7 +71,7 @@
       }
     },
     // 删除样式
-    removeClass: function(dom, clazz) {
+    removeClass: function (dom, clazz) {
       if (dom != null && clazz != null && clazz != '') {
         if (this.isElement(dom)) {
           dom.className = this.trim(dom.className.replace(new RegExp(clazz, 'g'), ''));
@@ -83,7 +83,7 @@
       }
     },
     // 删除元素
-    remove: function(dom) {
+    remove: function (dom) {
       if (dom != null) {
         if (this.isElement(dom)) {
           dom.parentNode.removeChild(dom);
@@ -95,17 +95,17 @@
       }
     },
     // css3 选择器
-    query: function(s, dom) {
+    query: function (s, dom) {
       dom = dom == null ? document : dom;
       return dom.querySelector(s);
     },
     // css3 选择器
-    queryAll: function(s, dom) {
+    queryAll: function (s, dom) {
       dom = dom == null ? document : dom;
       return dom.querySelectorAll(s);
     },
     // 合并两个 json 对象
-    extend: function(a, b) {
+    extend: function (a, b) {
       if (a == null) {
         return b;
       } else if (b == null) {
@@ -118,7 +118,7 @@
       }
     },
     // 转换对象
-    parseInt: function(str) {
+    parseInt: function (str) {
       try {
         var v = parseInt(str, 10);
         return isNaN(v) || v == null ? 0 : v;
@@ -126,7 +126,7 @@
         return 0;
       }
     },
-    parseFloat: function(str, point) {
+    parseFloat: function (str, point) {
       try {
         var v = parseFloat(str);
         return isNaN(v) || v == null ? 0 : point == null ? v : v.toFixed(point);
@@ -134,52 +134,64 @@
         return 0;
       }
     },
-    parseDate: function(str) {
+    parseDate: function (str) {
       var date = null;
+      var nowDate = new Date();
       try {
-        if (str != null && str != '') {
+        if (str != undefined && str != '') {
           var regNum = /^[1-3][0-9]{7}$/;
           if (str instanceof Date) {
-            date = str
+            date = str;
           } else {
             if (str.indexOf('Date') > -1) {
-              date = new Date(parseInt(str.replace('/Date(', '').replace(')/', ''), 10))
-            } else {
-              if (regNum.test(str)) {
-                date = new Date(str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6, 2))
-              } else {
-                date = new Date(str.replace(/\-/g, "/"))
+              date = new Date(parseInt(str.replace('/Date(', '').replace(')/', ''), 10));
+            } else if (str.indexOf(':') > -1) {
+              date = new Date(str.replace(/\-/g, '/'));
+            } else if (!isNaN(str)) {
+              if (str.length > 8) {
+                date = new Date(str);
+              } else if (str.length == 8) {
+                date = new Date(str.substr(0, 4) + '/' + str.substr(4, 2) + '/' + str.substr(6, 2));
+              } else if (str.length == 4) {
+                date = new Date(year + '/' + str.substr(0, 2) + '/' + str.substr(2, 2));
               }
+            } else if (/[1-9]+/.test(str)) {
+              str = str.replace(/[^0-9]/g, '/').replace(/^\/+/, '').replace(/\/+$/, '').replace(/\/+/g, '/');
+              var year = str.length < 6 ? nowDate.getFullYear() + '/' : '';
+              date = new Date(year + str);
             }
           }
         }
+
+        date = date == 'Invalid Date' ? null : date;
       } catch (e) {
-        date = null
+        date = null;
       }
+
       return date;
     },
     // 转成 json
-    parseJson: function(s) {
+    parseJson: function (s) {
       return s == null || this.trim(s) == '' ? null : eval('(' + s + ')');
     },
     // 是否 HTMLElement
-    isElement: function(d) {
+    isElement: function (d) {
       return (d && d instanceof HTMLElement);
     },
     // 是否 function
-    isFunction: function(fn) {
+    isFunction: function (fn) {
       return Object.prototype.toString.call(fn) === '[object Function]';
     },
     // 是否空或者空字符串
-    isEmpty: function(s) {
+    isEmpty: function (s) {
       return s == null || s == '';
     },
     // null 转 ''
-    toEmpty: function(s) {
+    toEmpty: function (s) {
       return s == null ? '' : s;
     },
     // 转换字符串
-    formatDate: function(date, format) {
+    formatDate: function (date, format) {
       try {
         var o = {
           // 格式化数据，多字符必须放在前面
@@ -207,14 +219,14 @@
         return '';
       }
     },
-    dateFormatZero: function(str) {
+    dateFormatZero: function (str) {
       str = str.toString();
       return str.length == 1 ? '0' + str : str;
     }
   };
 
   // 阻止浏览器默认事件
-  ice.stopDefault = function(e) {
+  ice.stopDefault = function (e) {
     e = e || window.event;
     e.preventDefault();
     if (window.event) {
@@ -223,13 +235,13 @@
   };
 
   // 阻止事件冒泡
-  ice.stopPropagation = function(e) {
+  ice.stopPropagation = function (e) {
     e = e || window.event;
     e.stopPropagation();
   };
 
   // 执行时间
-  ice.trigger = function(dom, e) {
+  ice.trigger = function (dom, e) {
     try {
       dom[e.replace(/^on/, '')]();
     } catch (e) {
@@ -266,7 +278,7 @@
   };
 
   // ajax 请求
-  ice.ajax = function(o) {
+  ice.ajax = function (o) {
     var options = ice.extend(ajaxDefault, o);
     var myurl = options.url;
     var myhttp = createHttpRequest();
@@ -324,7 +336,7 @@
       if (options.async == false) {
         ice.ajaxResult(myhttp, options);
       } else {
-        myhttp.onreadystatechange = function() {
+        myhttp.onreadystatechange = function () {
           ice.ajaxResult(myhttp, options);
         };
       }
@@ -332,7 +344,7 @@
   };
 
   // 返回结果执行函数
-  ice.ajaxResult = function(myhttp, options) {
+  ice.ajaxResult = function (myhttp, options) {
     var finish = false;
     if (myhttp.readyState == 4) {
       if (myhttp.status == 200) {
