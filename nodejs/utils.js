@@ -10,6 +10,7 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 var stat = fs.stat;
+var query = require('querystring');
 
 /* 读取目录下所有文件
  * @param root 根目录
